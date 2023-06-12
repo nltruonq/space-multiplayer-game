@@ -139,6 +139,7 @@ const SPEED = 10;
 var playerInputs = [];
 let sequenceNumber = 0;
 setInterval(() => {
+    if (!frontEndPlayers[socket.id]) return;
     if (keys.w.pressed && frontEndPlayers[socket.id].y > 10) {
         sequenceNumber++;
         playerInputs.push({ sequenceNumber, dx: 0, dy: -SPEED });
@@ -249,6 +250,7 @@ function handleShot(event) {
     const mouseY = event.clientY * devicePixelRatio - canvasRect.top;
 
     const player = frontEndPlayers[socket.id];
+    if (!player) return;
     const playerCenterX = player.x + player.width / 2;
     const playerCenterY = player.y + player.height / 2;
     const dx = mouseX - playerCenterX;
