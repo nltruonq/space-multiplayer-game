@@ -2,6 +2,7 @@ const Projectile = require("../../../public/js/classes/Projectile");
 
 const playerEvent = (socket, io, backEndPlayers, projectiles, SPEED) => {
     socket.on("keydown", ({ keycode, sequenceNumber }) => {
+        if (!backEndPlayers[socket.id]) return;
         backEndPlayers[socket.id].sequenceNumber = sequenceNumber;
         switch (keycode) {
             case "KeyW":
