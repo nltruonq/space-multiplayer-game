@@ -38,6 +38,7 @@ const playerEvent = (socket, io, backEndPlayers, projectiles, SPEED) => {
 
     socket.on("damage", ({ killer, victim }) => {
         delete backEndPlayers[victim];
+        if (!backEndPlayers[killer]) return;
         backEndPlayers[killer].kill += 1;
         io.emit("damage", { killer, victim });
     });
