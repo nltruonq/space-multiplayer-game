@@ -29,6 +29,7 @@ const playerEvent = (socket, io, backEndPlayers, projectiles, SPEED) => {
     });
 
     socket.on("mousemove", ({ id, angle }) => {
+        if (!backEndPlayers[id]) return;
         backEndPlayers[id].angle = angle;
     });
 

@@ -20,6 +20,7 @@ module.exports = (server) => {
             sequenceNumber: 0,
             nickname: socket.nickname,
             kill: 0,
+            angle: 0,
         };
 
         io.emit("updatePlayers", backEndPlayers);
