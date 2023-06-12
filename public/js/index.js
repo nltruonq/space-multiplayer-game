@@ -278,7 +278,7 @@ socket.on("damage", ({ killer, victim }) => {
     if (socket.id === victim) {
         document.querySelector(".modal-overlay").style.display = "block";
         document.querySelector(
-            ".modal-title"
-        ).innerHTML = `<p>Bạn đã bị tiêu diệt bởi <bold>${backEndPlayers[killer]?.nickname}</bold></p>`;
+            ".modal-header"
+        ).innerHTML = `<h5 class="modal-title">Bạn đã bị tiêu diệt bởi <span style="color: red;">${frontEndPlayers[killer]?.nickname}</span></h5>`;
     }
 });
