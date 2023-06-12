@@ -1,0 +1,10 @@
+<div class="nickname">
+    <input class="nickname__input" placeholder="Nickname" />
+    <button onclick="play()" class="nickname__play">Play</button>
+</div>
+
+<script>
+    const nickname = JSON.parse(localStorage.getItem('space')) || ""; document.querySelector('.nickname__input').value = nickname; const
+    text = document.querySelector('.nickname__input'); const play = () => { localStorage.setItem('space', JSON.stringify(text.value));
+    window.location.href = `/game?nickname=${text.value}` }
+</script>

@@ -1,0 +1,30 @@
+<div class="score">
+    <span>Kill: <span id="scoreEl">0</span></span>
+</div>
+<canvas></canvas>
+
+{{! modal }}
+<div class="modal-overlay" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bạn đã bị tiêu diệt</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="remake()" class="btn btn-secondary" data-dismiss="modal">Chơi tiếp</button>
+                {{! <button type="button" onclick="" class="btn btn-primary">Lưu</button> }}
+            </div>
+        </div>
+    </div>
+</div>
+{{!  }}
+
+<script src="https://cdn.socket.io/4.6.2/socket.io.min.js"></script>
+<script src="/js/classes/Enemy.js"></script>
+<script src="/js/classes/Particle.js"></script>
+<script src="/js/classes/Player.js"></script>
+<script src="/js/classes/Projectile.js"></script>
+<script src="/js/index.js"></script>
+<script>
+    function remake() { location.reload(); }
+</script>

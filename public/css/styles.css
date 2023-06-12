@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.score {
+    position: absolute;
+    color: white;
+    padding: 8px;
+    font-family: sans-serif;
+    font-size: 14px;
+    user-select: none;
+}
+
+/* input */
+.nickname {
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.nickname__input {
+    min-width: 200px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid #0044ff;
+    color: black;
+    transition: 0.5s;
+}
+
+.nickname__play {
+    padding: 6px 36px;
+    border-radius: 10px;
+    border: 2px solid #0044ff;
+    font-weight: 500;
+}
+
+.nickname__play:hover {
+    background-color: #0044ff;
+    color: white;
+}
+
+/* modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal {
+    width: min(60%, 300px);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    margin-bottom: 40px;
+}
+
+.modal-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    text-align: right;
+}
+
+.modal-footer button {
+    margin-left: 20px;
+}
+/*  */
