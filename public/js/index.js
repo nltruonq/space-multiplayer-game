@@ -81,6 +81,7 @@ socket.on("updateProjectiles", (projectiles) => {
 
 let animationId;
 var projectilesFe = [];
+var particles = [];
 function animate() {
     animationId = requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -110,6 +111,15 @@ function animate() {
             ) {
                 if (e.owner === socket.id) {
                     socket.emit("damage", { killer: e.owner, victim: id });
+                    // create explosions
+                    for (let i = 0; i < playerCenterX; i++) {
+                        particles.push(
+                            new Particle(e.x, e.y, Math.random() * 2, frontEndPlayer.color, {
+                                x: (Math.random() - 0.5) * (Math.random() * 6),
+                                y: (Math.random() - 0.5) * (Math.random() * 6),
+                            })
+                        );
+                    }
                     document.querySelector("#scoreEl").innerText = parseInt(document.querySelector("#scoreEl").innerText) + 1;
                 }
             }
@@ -117,8 +127,19 @@ function animate() {
         if (e.x < 0 || e.x > canvas.width || e.y < 0 || e.y > canvas.height) {
             arr.splice(i, 1);
         }
+
         e.update();
     });
+
+    for (let index = particles.length - 1; index >= 0; index--) {
+        const particle = particles[index];
+
+        if (particle.alpha <= 0) {
+            particles.splice(index, 1);
+        } else {
+            particle.update();
+        }
+    }
 }
 
 animate();
@@ -274,6 +295,7 @@ function handleShot(event) {
     };
 
     socket.emit("shot", { projectile });
+    audio.shoot.play();
     canShoot = false;
     setTimeout(() => {
         canShoot = true;

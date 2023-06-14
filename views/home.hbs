@@ -5,6 +5,6 @@
 
 <script>
     const nickname = JSON.parse(localStorage.getItem('space')) || ""; document.querySelector('.nickname__input').value = nickname; const
-    text = document.querySelector('.nickname__input'); const play = () => { localStorage.setItem('space', JSON.stringify(text.value));
-    window.location.href = `/game?nickname=${text.value}` }
+    text = document.querySelector('.nickname__input'); const play = async () => { localStorage.setItem('space', JSON.stringify(text.value));
+    audio.start.play(); await new Promise(resolve => setTimeout(resolve, 1000)); window.location.href = `/game?nickname=${text.value}`}
 </script>
