@@ -109,8 +109,9 @@ function animate() {
                 e.y >= playerCenterY - range &&
                 e.y <= playerCenterY + range
             ) {
-                if (e.owner === socket.id) {
+                if (e.owner === socket.id && !frontEndPlayer.died) {
                     socket.emit("damage", { killer: e.owner, victim: id });
+                    document.querySelector("#scoreEl").innerText = parseInt(document.querySelector("#scoreEl").innerText) + 1;
                     // create explosions
                     for (let i = 0; i < playerCenterX; i++) {
                         particles.push(
@@ -120,7 +121,6 @@ function animate() {
                             })
                         );
                     }
-                    document.querySelector("#scoreEl").innerText = parseInt(document.querySelector("#scoreEl").innerText) + 1;
                 }
             }
         }
