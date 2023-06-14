@@ -38,6 +38,7 @@ socket.on("updatePlayers", (backEndPlayers) => {
                 frontEndPlayers[id].x = backEndPlayer.x;
                 frontEndPlayers[id].y = backEndPlayer.y;
                 frontEndPlayers[id].nickname = backEndPlayer.nickname;
+                frontEndPlayers[id].died = backEndPlayer.died;
 
                 const lastBackendInputIndex = playerInputs.findIndex((input) => {
                     return backEndPlayer.sequenceNumber === input.sequenceNumber;
@@ -53,6 +54,7 @@ socket.on("updatePlayers", (backEndPlayers) => {
                 // for all other players
                 frontEndPlayers[id].nickname = backEndPlayer.nickname;
                 frontEndPlayers[id].angle = backEndPlayer.angle;
+                frontEndPlayers[id].died = backEndPlayer.died;
 
                 gsap.to(frontEndPlayers[id], {
                     x: backEndPlayer.x,
@@ -87,7 +89,8 @@ function animate() {
 
     for (const id in frontEndPlayers) {
         const frontEndPlayer = frontEndPlayers[id];
-        frontEndPlayer.update();
+        if (frontEndPlayer.died) frontEndPlayer.die();
+        else frontEndPlayer.update();
     }
 
     projectilesFe.forEach((e, i, arr) => {
@@ -105,10 +108,10 @@ function animate() {
                 e.y >= playerCenterY - range &&
                 e.y <= playerCenterY + range
             ) {
-                socket.emit("damage", { killer: e.owner, victim: id });
-                frontEndPlayer.die();
-                if (e.owner === socket.id)
+                if (e.owner === socket.id) {
+                    socket.emit("damage", { killer: e.owner, victim: id });
                     document.querySelector("#scoreEl").innerText = parseInt(document.querySelector("#scoreEl").innerText) + 1;
+                }
             }
         }
         if (e.x < 0 || e.x > canvas.width || e.y < 0 || e.y > canvas.height) {
@@ -242,6 +245,7 @@ window.addEventListener("mousedown", handleShot);
 let canShoot = true;
 const projectileSpeed = 20;
 function handleShot(event) {
+    event.preventDefault();
     if (!canShoot) {
         return;
     }
@@ -284,3 +288,71 @@ socket.on("damage", ({ killer, victim }) => {
         ).innerHTML = `<h5 class="modal-title">Bạn đã bị tiêu diệt bởi <span style="color: red;">${frontEndPlayers[killer]?.nickname}</span></h5>`;
     }
 });
+
+function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+if (isMobileDevice()) {
+    var touchStartX, touchStartY;
+    const move = document.querySelector("#move");
+    move.removeEventListener("mousedown", handleShot);
+    move.addEventListener("touchstart", function (event) {
+        console.log(event.touches);
+        touchStartX = event.touches[0].clientX * devicePixelRatio;
+        touchStartY = event.touches[0].clientY * devicePixelRatio;
+    });
+    move.addEventListener("touchend", function (event) {
+        keys.w.pressed = false;
+        keys.a.pressed = false;
+        keys.s.pressed = false;
+        keys.d.pressed = false;
+    });
+    move.addEventListener(
+        "touchmove",
+        function (event) {
+            event.preventDefault(); // Ngăn chặn cuộn trang khi di chuyển trên màn hình
+
+            const touchX = event.touches[0].clientX * devicePixelRatio;
+            const touchY = event.touches[0].clientY * devicePixelRatio;
+
+            const deltaX = touchX - touchStartX;
+            const deltaY = touchY - touchStartY;
+            const angle = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
+
+            switch (true) {
+                case deltaX === deltaY && deltaX === 0:
+                    keys.w.pressed = false;
+                    keys.a.pressed = false;
+                    keys.s.pressed = false;
+                    keys.d.pressed = false;
+                    break;
+
+                case angle > -112.5 && angle <= -67.5:
+                    keys.s.pressed = false;
+                    keys.w.pressed = true;
+                    break;
+
+                case angle > 157.5 && angle <= 202.5:
+                    keys.d.pressed = false;
+                    keys.a.pressed = true;
+                    break;
+
+                case angle > 67.5 && angle <= 112.5:
+                    keys.w.pressed = false;
+                    keys.s.pressed = true;
+                    break;
+
+                case angle > -22.5 && angle <= 22.5:
+                    keys.a.pressed = false;
+                    keys.d.pressed = true;
+                    break;
+            }
+
+            touchStartX = touchX;
+            touchStartY = touchY;
+        },
+        { passive: false }
+    );
+} else {
+}

@@ -21,6 +21,7 @@ module.exports = (server) => {
             nickname: socket.nickname,
             kill: 0,
             angle: 0,
+            died: false,
         };
 
         io.emit("updatePlayers", backEndPlayers);

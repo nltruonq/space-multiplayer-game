@@ -90,3 +90,26 @@ canvas {
     margin-left: 20px;
 }
 /*  */
+
+/* shootbutton */
+#move {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    position: fixed;
+    bottom: 10%;
+    left: 10%;
+    width: 40%;
+    aspect-ratio: 1/1;
+    /* height: 20%; */
+    background-color: white;
+    padding: 10px 10px;
+    border-radius: 50%;
+}
+
+@media (max-width: 500px) {
+    #move {
+        display: block;
+    }
+}

@@ -50,8 +50,7 @@ class Player {
             c.fillStyle = this.color;
             c.fill();
             c.closePath();
-            this.radius -= 0.5;
-            setTimeout(() => {}, 200);
+            this.radius -= 1;
         }
     }
 }
