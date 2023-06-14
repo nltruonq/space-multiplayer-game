@@ -304,6 +304,7 @@ function handleShot(event) {
 
 socket.on("damage", ({ killer, victim }) => {
     if (socket.id === victim) {
+        audio.gameOver.play();
         document.querySelector(".modal-overlay").style.display = "block";
         document.querySelector(
             ".modal-header"
